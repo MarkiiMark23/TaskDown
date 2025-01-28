@@ -6,6 +6,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status, permissions
 from .serializers import UserRegistrationSerializer
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Task
+from .serializers import TaskSerializer
+from .permissions import IsParent, IsKid
 
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]  # Allow access without authentication
@@ -31,3 +36,20 @@ class CustomAuthToken(ObtainAuthToken):
             'user_id': user.id,
             'username': user.username,
         })
+    
+    # Parent can create tasks
+class TaskCreateView(generics.CreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated, IsParent]
+
+    def perform_create(self, serializer):
+        serializer.save(parent=self.request.user)
+
+# Kids can view their tasks
+class TaskListView(generics.ListAPIView):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated, IsKid]
+
+    def get_queryset(self):
+        return Task.objects.filter(assigned_to=self.request.user)

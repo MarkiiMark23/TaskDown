@@ -5,6 +5,12 @@ class CustomUser(AbstractUser):
     is_parent = models.BooleanField(default=False)
     is_kid = models.BooleanField(default=False)
 
+    def is_parent_user(self):
+        return self.is_parent
+
+    def is_kid_user(self):
+        return self.is_kid
+
 class Task(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -30,3 +36,4 @@ class Reward(models.Model):
     description = models.TextField(blank=True)
     points_cost = models.PositiveIntegerField()
     parent = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="rewards")
+

@@ -1,5 +1,12 @@
 from rest_framework import serializers
 from .models import CustomUser
+from .models import Task
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'description', 'due_date', 'priority', 'completed', 'parent', 'assigned_to']
+        read_only_fields = ['parent']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
