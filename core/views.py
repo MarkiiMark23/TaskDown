@@ -12,6 +12,7 @@ from .models import Task
 from .serializers import TaskSerializer
 from .permissions import IsParent, IsKid
 from .models import Behavior
+from .serializers import BehaviorSerializer
 
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]  # Allow access without authentication
