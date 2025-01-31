@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Task
 from .serializers import TaskSerializer
 from .permissions import IsParent, IsKid
+from .models import Behavior
 
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]  # Allow access without authentication
