@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
 from .models import Task
+from .models import Behavior
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +25,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])  # Hash the password
         user.save()
         return user
+
+class BehaviorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Behavior
+        fields = ['id', 'behavior_type', 'description', 'date_logged', 'logged_by', 'associated_with']
+        read_only_fields = ['logged_by', 'date_logged']

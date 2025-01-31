@@ -37,7 +37,7 @@ class CustomAuthToken(ObtainAuthToken):
             'username': user.username,
         })
     
-    # Parent can create tasks
+# Parent can create tasks
 class TaskCreateView(generics.CreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -53,3 +53,11 @@ class TaskListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Task.objects.filter(assigned_to=self.request.user)
+
+class BehaviorLogView(generics.CreateAPIView):
+    queryset = Behavior.objects.all()
+    serializer_class = BehaviorSerializer
+    permission_classes = [IsAuthenticated, IsParent]
+
+    def perform_create(self, serializer):
+        serializer.save(logged_by=self.request.user)
