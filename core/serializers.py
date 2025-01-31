@@ -12,7 +12,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class TaskCompleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['completed']
+        fields = ['completed', 'fun_rating', 'time_taken', 'did_not_finish', 'finished_late', 'not_quite']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
