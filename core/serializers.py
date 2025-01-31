@@ -9,6 +9,11 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'due_date', 'priority', 'completed', 'parent', 'assigned_to']
         read_only_fields = ['parent']
 
+class TaskCompleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['completed', 'did_not_finish', 'not_quite', 'completed_late']
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

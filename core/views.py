@@ -9,10 +9,12 @@ from .serializers import UserRegistrationSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Task
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, TaskCompleteSerializer 
 from .permissions import IsParent, IsKid
 from .models import Behavior
 from .serializers import BehaviorSerializer
+from .models import Task
+from .permissions import IsKid
 
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]  # Allow access without authentication
@@ -51,6 +53,15 @@ class TaskCreateView(generics.CreateAPIView):
 # Kids can view their tasks
 class TaskListView(generics.ListAPIView):
     serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated, IsKid]
+
+    def get_queryset(self):
+        return Task.objects.filter(assigned_to=self.request.user)
+    
+# Kid marks a task as completed
+class TaskCompleteView(generics.UpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskCompleteSerializer
     permission_classes = [IsAuthenticated, IsKid]
 
     def get_queryset(self):

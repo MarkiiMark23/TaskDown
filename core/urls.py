@@ -2,7 +2,7 @@ from django.urls import path
 from .views import home
 from .views import UserRegistrationView
 from .views import CustomAuthToken
-from .views import TaskCreateView, TaskListView
+from .views import TaskCreateView, TaskListView, TaskCompleteView
 from .views import BehaviorLogView
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/', CustomAuthToken.as_view(), name='login'),
     path('tasks/create/', TaskCreateView.as_view(), name='create-task'),
     path('tasks/', TaskListView.as_view(), name='list-tasks'),
+    path('tasks/<int:pk>/complete/', TaskCompleteView.as_view(), name='complete-task'),
     path('behaviors/log/', BehaviorLogView.as_view(), name='log-behavior'),
 ]
